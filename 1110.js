@@ -248,7 +248,7 @@ var Map=function($container){
 		context.drawImage(this, 0, 0);
 		collisionMap['black'] = context.getImageData(0, 0, 1024, 1024).data;
 	});
-	blackImg.attr('src', '/collision/1n4eC.png')
+	blackImg.attr('src', './collision/1n4eC.png')
 
 	var whiteImg = $(new Image());
 
@@ -257,7 +257,7 @@ var Map=function($container){
 		context.drawImage(this, 0, 0);
 		collisionMap['white'] = context.getImageData(0, 0, 1024, 1024).data;
 	});
-	whiteImg.attr('src', '/collision/2n1wC.png')	
+	whiteImg.attr('src', './collision/2n1wC.png')	
 	
 
 	$container.css({
@@ -390,7 +390,7 @@ var Map=function($container){
 								var isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox")> -1;
 								var crossDomain = false; //(isFirefox || isChrome); // && serverMap[nm] == 0
 								
-								var url = crossDomain ? "http://server2.enovasion.dk/collision" : "/collision";
+								var url = crossDomain ? "http://server2.enovasion.dk/collision" : "./collision";
 								
 								if(crossDomain)
 									colImg[0].crossOrigin = '';
