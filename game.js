@@ -98,7 +98,7 @@ function cache(evt, b) {
 function StartIntro()
 {
 	if (!gameStarted) {
-		if(collisionMap['1n1e'] == false || collisionMap['1n1w'] == false || collisionMap['2n1w'] == false || collisionMap['1n2e'] == false) {
+		if(collisionMap['1n1e'] === false || collisionMap['1n1w'] === false || collisionMap['2n1w'] === false || collisionMap['1n2e'] === false) {
 			$("#loadingwarning").fadeIn('slow', function() {$(this).fadeOut('slow');});
 			return;
 		}
