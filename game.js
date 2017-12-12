@@ -44,7 +44,7 @@ function cache(evt, b) {
 				StartIntro();
 			leftPressed = b;
 			triggered = true;
-			 break;
+			break;
 		case 38:
 			if(!gameIntro)
 				StartIntro();
@@ -81,43 +81,33 @@ function cache(evt, b) {
 			balloon = b;
 			triggered = true;
 			break;
-
 	}
 
 	if(gameIntro)
 	{
-
-
 		downPressed = false;
 		leftPressed = false;
 		rightPressed = false;
 		upPressed = false;
 		balloon = false;
-
-
-
-
 	}
+
 	return !triggered;
 };
 
 function StartIntro()
 {
-	if(collisionMap['1n1e'] == false || collisionMap['1n1w'] == false || collisionMap['2n1w'] == false || collisionMap['1n2e'] == false) {
-		$("#loadingwarning").fadeIn('slow', function() {$(this).fadeOut('slow');});
-		return;
-	}
-	else
-		$("#loadingwarning").fadeOut('slow');
+	if (!gameStarted) {
+		if(collisionMap['1n1e'] == false || collisionMap['1n1w'] == false || collisionMap['2n1w'] == false || collisionMap['1n2e'] == false) {
+			$("#loadingwarning").fadeIn('slow', function() {$(this).fadeOut('slow');});
+			return;
+		}
+		else $("#loadingwarning").fadeOut('slow');
 
-
-	if(!gameStarted) {
-				gameIntro = true;
-				gameStarted = true;
-				window.setInterval(update,33);
-				window.setInterval(log,20000);	
-
-
+		gameIntro = true;
+		gameStarted = true;
+		window.setInterval(update,33);
+		window.setInterval(log,20000);
 	}
 }
 function teleport(x,y)
@@ -136,11 +126,9 @@ gameIntro = false;
 document.onmousedown = function(e){
 	if(!gameIntro)
 		StartIntro();
-	
 }
 
 $(document).keyup(function(evt) {
-
 	if(evt.keyCode == 89 && evt.shiftKey) {
 		alert(getImageForPixel(player.centerX(), player.centerY()).id +
 				"\nMap: " + Math.floor(player.centerX()) + "," + Math.floor(player.centerY())+
@@ -222,15 +210,14 @@ function Player() {
 	var factor = 1.0;
 	var maxFactor = 1.0;	
 
-
-
 	this.centerX = function() {
 		return player.player.position().left+player.player.width()/2.0;
 	}
 
 	this.centerY = function() {
 		return player.player.position().top + player.player.height()/2.0;
-	}	
+	}
+
 	this.update = function () {
 		this.factor = 0.6;
 		this.maxFactor = 0.6;
@@ -253,8 +240,6 @@ function Player() {
 			this.factor = 0.3;
 		}
 
-
-
 		if(leftPressed) {
 			if(player.vx>-7*this.maxFactor)
 				player.vx -=2*this.factor;
@@ -269,8 +254,6 @@ function Player() {
 		else
 			player.vx = 0;
 
-
-
 		this.inWater = materialAtPixel(player.centerX(), player.centerY()+5) == col_water;
 		this.feetIinWater = materialAtPixel(player.centerX(), player.centerY()+15) == col_water;
 
@@ -281,8 +264,6 @@ function Player() {
 			if(isGrounded && !this.climbing && headFree && upPressedNow) {
 				justJumped = true;
 				player.vy = -12;
-
-
 			}
 
 			if(currentClimbable && !balloon) {
@@ -293,24 +274,15 @@ function Player() {
 						player.vy = 0;
 					}
 			}
-			else
-				this.climbing = false;
-
+			else this.climbing = false;
 		}
 		else {
 			if(this.climbing) {
-				if(!currentClimbable) {
-					this.climbing = false;
-
-				}
-				else if(downPressed) {
-					player.vy = 2;
-				}
-				else
-					this.vy = 0;
-			} else if(this.inWater && downPressed) {
-				this.vy = 4;
+				if(!currentClimbable) this.climbing = false;
+				else if(downPressed) player.vy = 2;
+				else this.vy = 0;
 			}
+			else if(this.inWater && downPressed) this.vy = 4;
 		}
 
 		if(balloon)
@@ -321,12 +293,8 @@ function Player() {
 				player.vy += -2.0;
 		}
 
-		if(lastPressed != "right" && !this.climbing) {
-			this.flipped = true;
-		}
-		else {
-			this.flipped = false;
-		}
+		if(lastPressed != "right" && !this.climbing) this.flipped = true;
+		else this.flipped = false;
 
 		upPressedNow = false;
 	}
@@ -342,9 +310,7 @@ function Player() {
 				frame = (frame+1);
 				frame = frame > frms-1 ? frms-1 : frame;
 			}
-			else
-				frame = (frame+1)%frms;
-
+			else frame = (frame+1)%frms;
 		}
 		else {
 			cnt = 0;
@@ -358,8 +324,7 @@ function Player() {
 	var landing = false;
 	
 	this.animate = function() {
-		
-		if(player.climbing) 
+		if(player.climbing)
 		{
 			//Climbing
 			if(upPressed || downPressed || rightPressed || leftPressed) 
@@ -375,10 +340,7 @@ function Player() {
 		else if(isGrounded)
 		{
 			//Ground			
-			if(!wasGrounded && lastVY > 19)
-			{
-				landing = true;
-			}		
+			if(!wasGrounded && lastVY > 19) landing = true;
 							
 			if(landing)
 			{
@@ -387,16 +349,10 @@ function Player() {
 					
 				this.animateFrame("fast_land", 4, false, 4);				
 			}			
-			else if(leftPressed || rightPressed) 
-			{
-				//Run
+			else if(leftPressed || rightPressed) //Run
 				this.animateFrame("run", 8, true, 2);
-			}
-			else
-			{
-				//Idle
+			else //Idle
 				this.animateFrame("idle", 15, true, 2);
-			}
 		}
 		else
 		{
@@ -432,14 +388,13 @@ function Player() {
 		this.player.removeClass(function () { return false; });
 
 		var c = "";
-		if(this.flipped) {
-			c += "flip";
-		}
+
+		if(this.flipped) c += "flip";
 
 		this.player.attr("class", c);
-
 	}
 }
+
 var camx = 100.0;
 var camy = 40.0;
 
@@ -461,7 +416,6 @@ function update() {
 		}
 	}
 
-
 	player.animate();
 	if(!gameIntro)
 	{
@@ -476,7 +430,6 @@ function update() {
 	player.x += player.vx;
 	player.y += player.vy;
 
-
 	updateMap();
 	lastVY = player.vy;
 }
@@ -485,7 +438,6 @@ function updateMap()
 {
 	var x = initMapPos[0] - camx;
 	var y = initMapPos[1] - camy;
-
 
 	map.position()[0] = x;
 	map.position()[1] = y;
@@ -498,7 +450,6 @@ function updateMap()
 
 	//player.player.offset({left: 650, top: 400});
 	player.player.offset({left: offset.left+(player.x-camx), top: offset.top+(player.y-camy)});
-
 }
 
 function log(){
@@ -513,7 +464,6 @@ function log(){
 			ypos: player.y
 		}
 	});*/
-
 }
 
 var groundedFrames;
@@ -534,7 +484,6 @@ if(headFree != -1 && player.vy<0)
 	var playerWidth = 20;
 	var playerHeight = 52;
 
-
 	if(player.inWater) {
 
 		player.vy -= 1.5;
@@ -552,17 +501,13 @@ if(headFree != -1 && player.vy<0)
 	var dirY = player.vy>0?1:-1;
 	var centerHorDist = PlayerRaytrace(dirX*playerWidth/2,playerHeight/5,dirX,0,Math.abs(player.vx));
 	var stopHorizontal = false;
+
 	if(centerHorDist!=-1)
 	{
-
 		player.x = player.x+dirX*(centerHorDist+playerWidth/2)-dirX*playerWidth/2;
-
 		player.vx = 0;
 		stopHorizontal = true;
-
 	}
-
-
 
 	var centerVerDistLeft = PlayerRaytrace(-2,dirY*playerHeight/2,0,dirY,1+Math.abs(player.vy));
 	var centerVerDistRight = PlayerRaytrace(2,dirY*playerHeight/2,0,dirY,1+Math.abs(player.vy));
@@ -573,32 +518,27 @@ if(headFree != -1 && player.vy<0)
 		player.vy *=0.7;
 		if(player.vx<7*player.maxFactor)
 			player.vx +=2;
-
-
-
 	}
+
 	if(centerVerDistLeft == -1 && centerVerDistRight != -1)
 	{
 		player.vy *=0.7;
 		if(player.vx>-7*player.maxFactor)
 			player.vx -=2;
-
-
 	}
 
 	if(centerVerDistLeft != -1 || centerVerDistRight != -1) {
-
 		if(player.vy>0) // only when falling down
 		{
 			groundedFrames = 3; // we are grounded for the next 3 frames
 			isGrounded = true; 
 		}
+
 		if(centerVerDistLeft != -1 && centerVerDistRight != -1) 
 		{
 			player.vy = 0;
-
-
 		}
+
 		//player.vy = dirY*Math.min(centerVerDistRight,centerVerDistLeft);
 		var dist = PlayerRaytrace(player.vx,playerHeight/2+player.vy,0,-1,playerHeight,true);
 		if(dist != -1)
@@ -620,16 +560,11 @@ if(headFree != -1 && player.vy<0)
 		{
 			//we might be stuck
 			player.y = player.y - 10;
-
 		}
-
-
-
 	}
-
 }
-function PlayerRaytrace(xoffset,yoffset,dx,dy,dist,flip,compare) {
 
+function PlayerRaytrace(xoffset,yoffset,dx,dy,dist,flip,compare) {
 	dist = Math.max(1,dist);
 	if(flip == undefined)
 		flip = false;
@@ -647,6 +582,7 @@ function PlayerRaytrace(xoffset,yoffset,dx,dy,dist,flip,compare) {
 	for(i = 0;i<dist;)
 	{
 		ground = materialAtPixel(x+i*dx, y+i*dy) == compare;
+		
 		if((!flip && ground) || (flip && !ground))
 			return i;
 		//we always want to trace the first  pixels due to better walking
@@ -658,6 +594,7 @@ function PlayerRaytrace(xoffset,yoffset,dx,dy,dist,flip,compare) {
 	return -1;
 
 }
+
 var  col_air = 0;
 var  col_climbable = 1;
 var  col_water = 2;
@@ -665,27 +602,26 @@ var  col_ground = 3;
 
 function materialAtPixel(x, y) {
 	var img = getImageForPixel(x, y);
-
+	
 	if(img != undefined)  {
-
 		var localX = x - img.left;
 		var localY = y - img.top;
-
+		
 		return materialAtImagePixel(img.id, localX, localY);
 	}
-	
 	
 	return col_air;
 }
 
 function materialAtImagePixel(name, x, y) {
-	if(collisionMap[name] == undefined)
+	var data = collisionMap[name];
+	
+	if(data === undefined)
 		return col_air; 
-	else if(collisionMap[name] == false)
+	else if(data === false)
 		return col_ground;
 
-	var data = collisionMap[name];
-	var i = (Math.floor(y/2) * 4) * 1024 + (Math.floor(x/2) * 4);	
+	var i = (Math.floor(y/2) * 4) * 1024 + (Math.floor(x/2) * 4);
 
 	if(data[i+0] <  50 && data[i+1] < 50 && data[i+2] < 50)
 		return col_ground;
@@ -714,8 +650,6 @@ function getImageForPixel(x, y) {
 	})[0];
 
 	return lastMap;
-
-
 }
 
 var player;
