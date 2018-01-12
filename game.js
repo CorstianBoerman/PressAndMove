@@ -635,6 +635,7 @@ function materialAtImagePixel(name, x, y) {
 var lastMap;
 var activeMaps;
 var collisionMap = [];
+
 function getImageForPixel(x, y) {
 
 	if(lastMap != undefined)

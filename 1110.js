@@ -259,6 +259,25 @@ var Map=function($container){
 	});
 	whiteImg.attr('src', './collision/2n1wC.png')	
 	
+	// Load some moving sprites beforehand (See https://github.com/CorstianBoerman/PressAndMove/issues/1)
+	var spriteTypes = [
+		['air', 1],
+		['climb', 9],
+		['fall', 1],
+		['fast_fall', 1],
+		['fast_land', 4],
+		['idle', 15],
+		['jump', 2],
+		['land', 3],
+		['run', 8]
+	];
+	
+	for (var i = 0; i < spriteTypes.length; i++) {
+		for (var ii = 1; ii <= spriteTypes[i][1]; ii++) {
+			$.get('player/man_' + spriteTypes[i][0] + '_' + (ii > 9 ? '' + ii: '0' + ii) + '.png');
+		}
+	}
+	// End of sprite prefetching logic
 
 	$container.css({
 		'z-index': 1,
