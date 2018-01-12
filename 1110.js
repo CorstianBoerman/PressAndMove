@@ -274,7 +274,10 @@ var Map=function($container){
 	
 	for (var i = 0; i < spriteTypes.length; i++) {
 		for (var ii = 1; ii <= spriteTypes[i][1]; ii++) {
-			$.get('player/man_' + spriteTypes[i][0] + '_' + (ii > 9 ? '' + ii: '0' + ii) + '.png');
+			$.ajax({
+				url: 'player/man_' + spriteTypes[i][0] + '_' + (ii > 9 ? '' + ii: '0' + ii) + '.png',
+				headers: {'cache-control': 'public'}
+			})
 		}
 	}
 	// End of sprite prefetching logic
