@@ -276,7 +276,7 @@ var Map=function($container){
 		for (var ii = 1; ii <= spriteTypes[i][1]; ii++) {
 			$.ajax({
 				url: 'player/man_' + spriteTypes[i][0] + '_' + (ii > 9 ? '' + ii: '0' + ii) + '.png',
-				headers: {'cache-control': 'public'}
+				headers: {'cache-control': 'min-fresh=86400'}
 			})
 		}
 	}
